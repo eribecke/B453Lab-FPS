@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
     private float rotY;
     private CharacterController cc;
     private Camera _camera;
+  
 
     public void Start()
     {
@@ -46,13 +47,13 @@ public class PlayerController : MonoBehaviour
         moveFB = Input.GetAxis("Vertical") * movementSpeed;
         moveLR = Input.GetAxis("Horizontal") * movementSpeed;
         rotX = Input.GetAxis("Mouse X") * sensitivity;
-        rotY = Input.GetAxis("Mouse Y") * sensitivity;
+        rotY -= Input.GetAxis("Mouse Y") * sensitivity;
 
         //Clamping Y Rotation
         rotY = Mathf.Clamp(rotY, -60f, 60f);
 
         //Creating movement vector
-        Vector3 movement = new Vector3(moveLR, 0, moveFB);
+        Vector3 movement = new Vector3(moveLR, 0, moveFB).normalized * movementSpeed;
 
         //Rotating the camera
         transform.Rotate(0, rotX, 0);
@@ -61,6 +62,8 @@ public class PlayerController : MonoBehaviour
         movement = transform.rotation * movement;
         cc.Move(movement * Time.deltaTime);
     }
+
+   
 
     
 }
