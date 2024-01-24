@@ -15,7 +15,9 @@ public class PlayerController : MonoBehaviour
     private float rotY;
     private CharacterController cc;
     private Camera _camera;
-  
+
+    [SerializeField] int currentAmmo = 0;
+    [SerializeField] c4 myC4;
 
     public void Start()
     {
@@ -27,6 +29,11 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         Move();
+
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            myC4.TriggerC4();
+        }
     }
 
     private void Move()
@@ -61,6 +68,11 @@ public class PlayerController : MonoBehaviour
 
         movement = transform.rotation * movement;
         cc.Move(movement * Time.deltaTime);
+    }
+
+    public void PickupAmmo(int amount)
+    {
+        currentAmmo = amount;
     }
 
    
