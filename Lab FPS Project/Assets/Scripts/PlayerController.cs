@@ -15,8 +15,9 @@ public class PlayerController : MonoBehaviour
     private float rotY;
     private CharacterController cc;
     private Camera _camera;
+    private int bulletInv;
 
-    [SerializeField] int currentAmmo = 0;
+   
     [SerializeField] c4 myC4;
 
     public void Start()
@@ -72,8 +73,16 @@ public class PlayerController : MonoBehaviour
 
     public void PickupAmmo(int amount)
     {
-        currentAmmo = amount;
+        bulletInv += amount;
+        
     }
+
+    public int BulletsObtained()
+    {
+        return bulletInv;
+    }
+
+   
 
    
 

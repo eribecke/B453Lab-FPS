@@ -9,6 +9,10 @@ public class Weapon : MonoBehaviour
     [SerializeField] protected int currentBullets;
     [SerializeField] protected int maxBullets;
     [SerializeField] protected GameObject bulletHole;
+    [SerializeField] protected GameObject particles;
+    [SerializeField] protected int bulletsInInventory;
+    private int storedBullets;
+    private PlayerController playerController;
     // Start is called before the first frame update
     void Start()
     {
@@ -29,6 +33,7 @@ public class Weapon : MonoBehaviour
             if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, Mathf.Infinity))
             {
                 GameObject decal = Instantiate(bulletHole, hit.point, Quaternion.identity);
+                GameObject particle = Instantiate(particles, hit.point, Quaternion.identity);
                 decal.transform.forward = -hit.normal;
                 decal.transform.Translate(Vector3.back * 0.01f);
                 Vector3 worldPosition = decal.transform.position;
@@ -37,6 +42,15 @@ public class Weapon : MonoBehaviour
                 decal.transform.position = worldPosition;
                 decal.transform.rotation = worldRotation;
 
+                particle.transform.forward = -hit.normal;
+                particle.transform.Translate(Vector3.back * 0.01f);
+                particle.transform.position = worldPosition;
+                particle.transform.rotation = worldRotation;
+                particle.transform.SetParent(hit.transform);
+                ParticleSystem p = particle.GetComponent<ParticleSystem>();
+                p.Play();
+
+
                 currentBullets--;
             }
         }
@@ -44,6 +58,7 @@ public class Weapon : MonoBehaviour
 
     public virtual int Reload(int rounds)
     {
+        storedBullets = playerController.BulletsObtained();
         if (currentBullets < maxBullets)
         {
             currentBullets += rounds;
