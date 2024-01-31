@@ -29,7 +29,11 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        Move();
+        if(!PauseMenu.instance.isPaused)
+        {
+             Move();
+        }
+       
 
         if (Input.GetKeyDown(KeyCode.C))
         {
