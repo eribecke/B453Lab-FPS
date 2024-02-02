@@ -86,6 +86,11 @@ public class PlayerController : MonoBehaviour
         return bulletInv;
     }
 
+    public void kickRecoil(Vector3 recoilPower)
+    {
+        gameObject.GetComponent<Rigidbody>().AddForce(recoilPower);
+    }
+
    
 
    
